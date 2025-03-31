@@ -1,0 +1,127 @@
+{
+    "name": "theta",
+    "title": "THetA - Tumor Heterogeneity Analysis",
+    "summary": "THetA (Tumor Heterogeneity Analysis) is a tool for estimating tumor purity and subclonal population frequencies from next-generation sequencing data",
+    "dxapi": "1.0.0",
+    "version": "1.0.0",
+    "inputSpec": [
+        {
+            "name": "interval_count_file",
+            "label": "Interval Count File",
+            "help": "File containing interval counts",
+            "class": "file",
+            "optional": false
+        },
+        {
+            "name": "normal_interval_count_file",
+            "label": "Normal Interval Count File",
+            "help": "File containing normal interval counts",
+            "class": "file",
+            "optional": true
+        },
+        {
+            "name": "tumor_interval_count_file",
+            "label": "Tumor Interval Count File",
+            "help": "File containing tumor interval counts",
+            "class": "file",
+            "optional": true
+        },
+        {
+            "name": "tumor_allele_count_file",
+            "label": "Tumor Allele Count File",
+            "help": "File containing tumor allele counts",
+            "class": "file",
+            "optional": true
+        },
+        {
+            "name": "normal_allele_count_file",
+            "label": "Normal Allele Count File",
+            "help": "File containing normal allele counts",
+            "class": "file",
+            "optional": true
+        },
+        {
+            "name": "num_chains",
+            "label": "Number of MCMC Chains",
+            "help": "Number of MCMC chains to run",
+            "class": "int",
+            "optional": true,
+            "default": 3
+        },
+        {
+            "name": "num_chains_to_use",
+            "label": "Number of Chains to Use",
+            "help": "Number of chains to use in the analysis",
+            "class": "int",
+            "optional": true,
+            "default": 3
+        },
+        {
+            "name": "num_iterations",
+            "label": "Number of Iterations",
+            "help": "Number of iterations per chain",
+            "class": "int",
+            "optional": true,
+            "default": 1000
+        },
+        {
+            "name": "burn_in",
+            "label": "Burn-in Period",
+            "help": "Number of burn-in iterations",
+            "class": "int",
+            "optional": true,
+            "default": 100
+        },
+        {
+            "name": "max_solutions",
+            "label": "Maximum Solutions",
+            "help": "Maximum number of solutions to return",
+            "class": "int",
+            "optional": true,
+            "default": 100
+        }
+    ],
+    "outputSpec": [
+        {
+            "name": "results",
+            "label": "THetA Results",
+            "help": "Results from THetA analysis",
+            "class": "file",
+            "patterns": ["*.results"]
+        }
+    ],
+    "runSpec": {
+        "interpreter": "bash",
+        "file": "src/theta.sh",
+        "distribution": "Ubuntu",
+        "release": "20.04",
+        "version": "0",
+        "timeoutPolicy": {
+            "main": {
+                "hours": 48
+            }
+        },
+        "restartable": false,
+        "execDepends": [
+            {
+                "name": "docker",
+                "version": "20.10.23"
+            }
+        ]
+    },
+    "access": {
+        "network": ["*"],
+        "project": "CONTRIBUTE",
+        "allProjects": "VIEW",
+        "developer": true
+    },
+    "regionalOptions": {
+        "azure:westus": {
+            "systemRequirements": {
+                "main": {
+                    "instanceType": "azure:mem2_ssd1_x8"
+                }
+            }
+        }
+    }
+} 
