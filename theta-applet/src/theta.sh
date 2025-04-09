@@ -1,36 +1,35 @@
 #!/bin/bash
 
 main() {
-    # Download input files
-    dx download "$interval_count_file" -o interval_count_file
+    # Get number of available cores
+    NUM_CORES=$(nproc)
+    
+    # Download all input files at once
+    dx-download-all-inputs
     
     # Build command with required parameters
-    cmd="docker run -v /home/dnanexus:/data jbkirkland/theta:latest bin/RunTHetA /data/interval_count_file"
+    cmd="docker run --cpus=${NUM_CORES} --memory=$(free -g | awk '/^Mem:/{print $2}')G -v ${PWD}:/data jbkirkland/theta:latest bin/RunTHetA /data/interval_count_file"
     
     # Add optional parameters if provided
     if [ ! -z "$normal_interval_count_file" ]; then
-        dx download "$normal_interval_count_file" -o normal_interval_count_file
         cmd="$cmd --NORMAL_FILE /data/normal_interval_count_file"
     fi
     
     if [ ! -z "$tumor_interval_count_file" ]; then
-        dx download "$tumor_interval_count_file" -o tumor_interval_count_file
         cmd="$cmd --TUMOR_FILE /data/tumor_interval_count_file"
     fi
     
     if [ ! -z "$tumor_allele_count_file" ]; then
-        dx download "$tumor_allele_count_file" -o tumor_allele_count_file
         cmd="$cmd --TUMOR_ALLELE_COUNT_FILE /data/tumor_allele_count_file"
     fi
     
     if [ ! -z "$normal_allele_count_file" ]; then
-        dx download "$normal_allele_count_file" -o normal_allele_count_file
         cmd="$cmd --NORMAL_ALLELE_COUNT_FILE /data/normal_allele_count_file"
     fi
     
     # Add optional parameters with defaults
-    cmd="$cmd --NUM_CHAINS ${num_chains:-3}"
-    cmd="$cmd --NUM_CHAINS_TO_USE ${num_chains_to_use:-3}"
+    cmd="$cmd --NUM_CHAINS ${num_chains:-${NUM_CORES}}"
+    cmd="$cmd --NUM_CHAINS_TO_USE ${num_chains_to_use:-${NUM_CORES}}"
     cmd="$cmd --NUM_ITERATIONS ${num_iterations:-1000}"
     cmd="$cmd --BURN_IN ${burn_in:-100}"
     cmd="$cmd --MAX_SOLUTIONS ${max_solutions:-100}"

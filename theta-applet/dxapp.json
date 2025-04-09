@@ -10,6 +10,7 @@
             "label": "Interval Count File",
             "help": "File containing interval counts",
             "class": "file",
+            "patterns": ["*.interval_count", "*.txt", "*.tsv"],
             "optional": false
         },
         {
@@ -17,6 +18,7 @@
             "label": "Normal Interval Count File",
             "help": "File containing normal interval counts",
             "class": "file",
+            "patterns": ["*.interval_count", "*.txt", "*.tsv"],
             "optional": true
         },
         {
@@ -24,6 +26,7 @@
             "label": "Tumor Interval Count File",
             "help": "File containing tumor interval counts",
             "class": "file",
+            "patterns": ["*.interval_count", "*.txt", "*.tsv"],
             "optional": true
         },
         {
@@ -31,6 +34,7 @@
             "label": "Tumor Allele Count File",
             "help": "File containing tumor allele counts",
             "class": "file",
+            "patterns": ["*.allele_count", "*.txt", "*.tsv"],
             "optional": true
         },
         {
@@ -38,6 +42,7 @@
             "label": "Normal Allele Count File",
             "help": "File containing normal allele counts",
             "class": "file",
+            "patterns": ["*.allele_count", "*.txt", "*.tsv"],
             "optional": true
         },
         {
@@ -87,7 +92,21 @@
             "label": "THetA Results",
             "help": "Results from THetA analysis",
             "class": "file",
-            "patterns": ["*.results"]
+            "patterns": ["*.results", "*.txt", "*.tsv"]
+        },
+        {
+            "name": "log",
+            "label": "Log File",
+            "help": "Log file containing analysis details",
+            "class": "file",
+            "patterns": ["*.log"]
+        },
+        {
+            "name": "plots",
+            "label": "Output Plots",
+            "help": "Visualization plots from the analysis",
+            "class": "file",
+            "patterns": ["*.png", "*.pdf"]
         }
     ],
     "runSpec": {
